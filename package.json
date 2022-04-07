@@ -1,0 +1,39 @@
+{
+  "name": "SCMS",
+  "version": "1.0.0",
+  "main": "server.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "node server",
+    "dev": "nodemon server",
+    "test": "cross-env NODE_ENV=test jest --watchAll --testTimeout=18000 --detectOpenHandles"
+  },
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "body-parser": "^1.19.1",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
+    "dotenv": "^14.1.0",
+    "express": "^4.17.2",
+    "express-jwt": "^6.1.0",
+    "generate-password": "^1.7.0",
+    "jest": "^27.5.1",
+    "lodash": "^4.17.21",
+    "morgan": "^1.10.0",
+    "mysql2": "^2.3.3",
+    "nodemailer": "^6.7.2",
+    "request": "^2.88.2",
+    "sequelize": "^6.13.0",
+    "sequelize-cli": "^6.4.1",
+    "shortid": "^2.2.16",
+    "supertest": "^6.2.2",
+    "uuid": "^8.3.2"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
+  }
+}

@@ -1,0 +1,334 @@
+const express = require("express");
+const {
+  admin_govOffice,
+  admin_manageUser,
+  admin_manageRanch,
+  admin_manageSupply,
+  admin_manageRequest,
+  admin_manageliveStock,
+  admin_managedeliveryAgent,
+  admin_manageDeliveryAgenttruck,
+} = require("../admin-controller");
+const { authAdmin } = require("../_middleware");
+const route = express.Router();
+
+/**
+ *admin: manage user
+ */
+route.post(
+  "/admin-register-user-randomly",
+  authAdmin.requireSignin,
+  authAdmin.authMiddleware,
+  authAdmin.checkAdmin,
+  admin_manageUser.registerRandomUsers
+);
+route.post(
+  "/admin-register-user",
+  authAdmin.requireSignin,
+  authAdmin.authMiddleware,
+  authAdmin.checkAdmin,
+  admin_manageUser.registerUser
+);
+
+route.get(
+  "/admin-list-users",
+  authAdmin.requireSignin,
+  authAdmin.authMiddleware,
+  authAdmin.checkAdmin,
+  admin_manageUser.listallUsers
+);
+// route.get("/hey", (req, res)=>{
+//   res.status(200).send({msg: "admin list users by role route"})
+// })
+route.get(
+  "/admin-list-users-byrole/:userRole",
+  authAdmin.requireSignin,
+  authAdmin.authMiddleware,
+  authAdmin.checkAdmin,
+  admin_manageUser.listUsersbyRole
+);
+route.patch(
+  "/admin-update-user/:username",
+  authAdmin.requireSignin,
+  authAdmin.authMiddleware,
+  authAdmin.checkAdmin,
+  admin_manageUser.updateUser
+);
+route.patch(
+  "/admin-assign-ranchManager-randomly",
+  authAdmin.requireSignin,
+  authAdmin.authMiddleware,
+  authAdmin.checkAdmin,
+  admin_manageUser.assignRanchManagersRandomly
+);
+route.post(
+  "/admin-assign-ranchManager/:ranchname",
+  authAdmin.requireSignin,
+  authAdmin.authMiddleware,
+  authAdmin.checkAdmin,
+  admin_manageUser.assign_ranchManager
+);
+route.patch(
+  "/:username/admin-assign-trackDriver/:licencePlate",
+  authAdmin.requireSignin,
+  authAdmin.authMiddleware,
+  admin_manageUser.assign_truckDriver
+);
+route.delete(
+  "/admin-delete-user/:username",
+  authAdmin.requireSignin,
+  authAdmin.authMiddleware,
+  admin_manageUser.deleteuser
+);
+/**
+ *
+ */
+route.post(
+  "/admin-register-inspector/:govOfficeName",
+  authAdmin.requireSignin,
+  authAdmin.authMiddleware,
+  admin_manageUser.adminRegisterInspectors
+);
+/**
+ * 
+ */
+route.patch(
+  "/admin-update-inspector-privilege/:inspectorId",
+  authAdmin.requireSignin,
+  authAdmin.authMiddleware,
+  admin_manageUser.adminUpdateInspectorPrivilege
+);
+/**
+ *
+ */
+route.post(
+  "/admin-register-govOffice",
+  authAdmin.requireSignin,
+  authAdmin.authMiddleware,
+  admin_govOffice.registergovOffice
+);
+route.get(
+  "/admin-view-govOffices",
+  authAdmin.requireSignin,
+  authAdmin.authMiddleware,
+  admin_govOffice.listallgovOffice
+);
+route.delete(
+  "/admin-delete-govOffice/:id",
+  authAdmin.requireSignin,
+  authAdmin.authMiddleware,
+  admin_govOffice.deletegovOffice
+);
+route.patch(
+  "admin-update-govOffice",
+  authAdmin.requireSignin,
+  authAdmin.authMiddleware,
+  admin_govOffice.updategovOffice
+);
+/**
+ * admin: manage ranch
+ */
+route.post(
+  "/admin-register-ranch-randomly",
+  authAdmin.requireSignin,
+  authAdmin.authMiddleware,
+  admin_manageRanch.registerRandomRanches
+);
+route.post(
+  "/admin-register-ranch",
+  authAdmin.requireSignin,
+  authAdmin.authMiddleware,
+  admin_manageRanch.registerRanch
+);
+route.get(
+  "/admin-list-all-ranches",
+  authAdmin.requireSignin,
+  authAdmin.authMiddleware,
+  admin_manageRanch.listallRanch
+);
+route.patch(
+  "/admin-update-ranch/:ranchname",
+  authAdmin.requireSignin,
+  authAdmin.authMiddleware,
+  admin_manageRanch.updateRanch
+);
+route.delete(
+  "/admin-delete-ranch/:ranchname",
+  authAdmin.requireSignin,
+  authAdmin.authMiddleware,
+  admin_manageRanch.deleteRanch
+);
+
+/**
+ * admin: manage livestock
+ */
+route.get(
+  "/admin-list-all-liveStock",
+  authAdmin.requireSignin,
+  authAdmin.authMiddleware,
+  admin_manageliveStock.listalliveStocks
+);
+route.patch(
+  "/admin-update-liveStock/:id",
+  authAdmin.requireSignin,
+  authAdmin.authMiddleware,
+  admin_manageliveStock.updateliveStock
+);
+
+route.post(
+  "/admin-register-liveStock/:ranchname",
+  authAdmin.requireSignin,
+  authAdmin.authMiddleware,
+  admin_manageliveStock.addLivestocks
+);
+route.delete(
+  "/admin-delete-liveStock/:id",
+  authAdmin.requireSignin,
+  authAdmin.authMiddleware,
+  admin_manageliveStock.deleteliveStock
+);
+route.get(
+  "/admin-list-all-livestocks",
+  authAdmin.requireSignin,
+  authAdmin.authMiddleware,
+  admin_manageliveStock.listalliveStocks
+);
+route.get(
+  "/admin-list-ranch-liveStock/:ranchname",
+  authAdmin.requireSignin,
+  authAdmin.authMiddleware,
+  admin_manageliveStock.listranchliveStocks
+);
+
+route.patch(
+  "/admin-update-liveStock-Supplier/:id",
+  authAdmin.requireSignin,
+  authAdmin.authMiddleware,
+  admin_manageliveStock.updateliveStockSupplier
+);
+
+/**
+ * admin: manage delivery agent
+ */
+route.post(
+  "/admin-register-deliveryAgentRandomly",
+  authAdmin.requireSignin,
+  authAdmin.authMiddleware,
+  admin_managedeliveryAgent.registerdeliveryAgentRandomly
+);
+route.post(
+  "/admin-register-deliveryAgent",
+  authAdmin.requireSignin,
+  authAdmin.authMiddleware,
+  admin_managedeliveryAgent.registerdeliveryAgent
+);
+route.get(
+  "/admin-listalldeliveryAgent",
+  authAdmin.requireSignin,
+  authAdmin.authMiddleware,
+  admin_managedeliveryAgent.listalldeliveryagent
+);
+route.delete(
+  "/admin-delete-deliveryAgent",
+  authAdmin.requireSignin,
+  authAdmin.authMiddleware,
+  admin_managedeliveryAgent.deleteDeliveryAgent
+);
+route.patch(
+  "/admin-update-deliveryAgent",
+  authAdmin.requireSignin,
+  authAdmin.authMiddleware,
+  admin_managedeliveryAgent.updateDeliveryAgent
+);
+/**
+ * admin: manage delivery agent truck
+ */
+route.post(
+  "/:id/admin-register-deliveryAgent-truck/:truckDriverId",
+  authAdmin.requireSignin,
+  authAdmin.authMiddleware,
+  admin_manageDeliveryAgenttruck.registerdeliveryAgenttruck
+);
+route.get(
+  "/admin-list-all-deliveryAgent-trucks",
+  authAdmin.requireSignin,
+  authAdmin.authMiddleware,
+  admin_manageDeliveryAgenttruck.listalltrucks
+);
+route.get(
+  "/admin-list-all-trucks-of-deliveryAgent",
+  authAdmin.requireSignin,
+  authAdmin.authMiddleware,
+  admin_manageDeliveryAgenttruck.listDeliveryAgenttrucks
+);
+route.patch(
+  "/:deliveryAgentId/admin-update-truck/:truckId",
+  authAdmin.requireSignin,
+  authAdmin.authMiddleware,
+  admin_manageDeliveryAgenttruck.updatetruck
+);
+route.delete(
+  "/:deliveryAgentId/admin-delete-truck/:truckId",
+  authAdmin.requireSignin,
+  authAdmin.authMiddleware,
+  admin_manageDeliveryAgenttruck.deletetruck
+);
+/**
+ * admin: manage request
+ */
+route.delete(
+  "/admin-delete-all-requests",
+  authAdmin.requireSignin,
+  authAdmin.authMiddleware,
+  admin_manageRequest.deleteAllRequest
+);
+route.patch(
+  "/admin-grantRequest/:request",
+  authAdmin.requireSignin,
+  authAdmin.authMiddleware,
+  admin_manageRequest.grantRequest
+);
+route.get(
+  "/admin-viewCustomerLiveStockRequest",
+  authAdmin.requireSignin,
+  authAdmin.authMiddleware,
+  admin_manageRequest.viewCustomerLiveStockRequest
+);
+route.delete(
+  "/admin-delete-request/:requestId",
+  authAdmin.requireSignin,
+  authAdmin.authMiddleware,
+  admin_manageRequest.deleteRequest
+);
+/**
+ * admin: manage response
+ */
+
+/**
+ * admin: manage ranch supply
+ */
+route.post(
+  "/admin-register-ranch-supply",
+  authAdmin.requireSignin,
+  authAdmin.authMiddleware,
+  admin_manageSupply.registerRanchSupply
+);
+route.get(
+  "/admin-view-ranch-supply/:ranchId",
+  authAdmin.requireSignin,
+  authAdmin.authMiddleware,
+  admin_manageSupply.viewRanchSupply
+);
+route.patch(
+  "/:type/admin-update-supply/:id",
+  authAdmin.requireSignin,
+  authAdmin.authMiddleware,
+  admin_manageSupply.updateSupply
+);
+route.delete(
+  "/:type/admin-delete-supply/:id",
+  authAdmin.requireSignin,
+  authAdmin.authMiddleware,
+  admin_manageSupply.deleteSupply
+);
+module.exports = route;

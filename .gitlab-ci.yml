@@ -1,0 +1,23 @@
+image: node:16.14.2
+stages:
+  - deploy
+ 
+before_script:
+  - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
+  - eval $(ssh-agent -s)
+  - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+  - mkdir -p ~/.ssh
+  - chmod 700 ~/.ssh
+  - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+  - git config --global user.email "meetredwan@gmail.com"
+  - git config --global user.name "RCNDCC"
+deploy-job:
+  stage: deploy
+  type: deploy
+  environment:
+    name: production
+    url: http://206.81.27.23
+  script:
+    - ssh $SSH_USERNAME@$SSH_IP "cd $PATH_TO_PROJECT && git pull origin main && npm install && pm2 reload server main && exit"
+  only:
+    - main
